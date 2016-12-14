@@ -4,7 +4,7 @@ namespace Ella7\Console\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand
 
-class Command extends ContainerAwareCommand
+class Command extends ContainerAwareCommand;
 {
   
   protected function getOptionalArgument($arg_key, $arg_desc, $arg_default, $input, $output)
