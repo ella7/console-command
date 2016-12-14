@@ -1,0 +1,19 @@
+{
+	"name": "ella7/console-test",
+	"description": "Testing autolod, git, and other stuff",
+	"type": "library",
+	"require": {
+		"php": ">=5.3.19",
+		"symfony/console": "2.8.*"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Ryan Packer",
+			"email": "ryan.packer@gmail.com"
+		}
+	],
+	"autoload": {
+    "psr-4": { "Ella7\\Console\\Command": "/src" }
+  }
+}
