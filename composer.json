@@ -1,5 +1,5 @@
 {
-	"name": "ella7/console-test",
+	"name": "ella7/console-command",
 	"description": "Testing autolod, git, and other stuff",
 	"type": "library",
 	"require": {
