@@ -38,16 +38,7 @@ class Ella7Command extends Command
     ;
   }
 
-
-  protected function interact(InputInterface $input, OutputInterface $output)
-  {
-    $interactive_options = $this->getInteractiveOptions($input, $output);
-    foreach ($interactive_options as $option_name) {
-      $this->setOptionInteractively($option_name, $input, $output);
-    }
-  }
-
-  protected function getInteractiveOptions(InputInterface $input, OutputInterface $output)
+  protected function getInteractiveOptions(InputInterface $input)
   {
     $interactive_options = [];
     $starting_interactive_options = $this->interactive_options ?
@@ -80,27 +71,31 @@ class Ella7Command extends Command
 
   protected function setOptionInteractively(string $option_name, $option_prompt, $option_default, InputInterface $input, OutputInterface $output)
   {
+    if(in_array($option_name, $this->getInteractiveOptions($input))){
+      $option_default = $input->getOption($option_name) ? $input->getOption($option_name) : $option_default;
+      $helper = $this->getHelper('question');
+      $question = new Question(
+        $this->defaultPromptString($option_prompt, $option_default),
+        $option_default
+      );
+      $input->setOption($option_name, $helper->ask($input, $output, $question));
+    }
+  }
+
+  protected function setArgumentInteractively(string $argument_name, $argument_prompt, $argument_default, InputInterface $input, OutputInterface $output)
+  {
+    $argument_default = $input->getArgument($argument_name) ? $input->getArgument($argument_name) : $argument_default;
     $helper = $this->getHelper('question');
-    $question = new Question($option_prompt.': ', $option_default);
-    $input->setOption($option_name, $helper->ask($input, $output, $question));
-  }
-
-  protected function getOptionalArgument($arg_key, $arg_desc, $arg_default, $input, $output)
-  {
-    $arg = $input->getArgument($arg_key);
-    $arg_default = $arg ? $arg : $arg_default;
-    $arg = $this->formattedAsk($output, $arg_desc, $arg_default);
-    return $arg;
-  }
-
-  protected function formattedAsk($output, $ask, $default)
-  {
-    $dialog = $this->getHelperSet()->get('dialog');
-
-    return $dialog->ask(
-      $output,
-      "<info>$ask</info> [<comment>$default</comment>]: ",
-      $default
+    $question = new Question(
+      $this->defaultPromptString($argument_prompt, $argument_default),
+      $argument_default
     );
+    $input->setArgument($argument_name, $helper->ask($input, $output, $question));
   }
+
+  protected function defaultPromptString(string $prompt, string $default)
+  {
+    return "<info>$prompt</info> [<comment>$default</comment>]: ";
+  }
+
 }
