@@ -1,6 +1,6 @@
 {
 	"name": "ella7/console-command",
-	"description": "Testing autolod, git, and other stuff",
+	"description": "Extension of Symfony console command",
 	"type": "library",
 	"require": {
 		"php": ">=5.3.19",
